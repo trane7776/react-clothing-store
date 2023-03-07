@@ -7,29 +7,34 @@ import {
 import Button from "../button/button.component";
 import "./sign-in-form.style.scss";
 import FormInput from "../form-input/form-input.component";
+
 const defaultFormFields = {
   email: "",
   password: "",
 };
+
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
+
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
   };
+
   const signInWithGoogle = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createUserDocumentFromAuth(user);
+    await signInWithGooglePopup();
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await signInUserWithEmailAndPassword(email, password);
+      const { user } = await signInUserWithEmailAndPassword(email, password);
       resetFormFields();
     } catch (error) {
       switch (error.code) {
@@ -45,6 +50,7 @@ const SignInForm = () => {
       }
     }
   };
+
   return (
     <div className="sign-up-container">
       <h2>Already have an account?</h2>
